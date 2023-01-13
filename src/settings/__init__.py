@@ -2,6 +2,8 @@ import os
 
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
+from .base import *
+
 
 load_dotenv()
 
@@ -15,4 +17,3 @@ else:
     engine = create_engine(
         SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
     )
-
