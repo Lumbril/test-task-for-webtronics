@@ -6,6 +6,7 @@ from database.database import get_db
 from database.schemas import UserSchema
 from services import get_password_hash
 
+
 registration_api = APIRouter()
 
 

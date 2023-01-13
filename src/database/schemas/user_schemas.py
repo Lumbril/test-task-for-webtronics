@@ -9,6 +9,10 @@ class UserCreateSchema(UserBaseSchema):
     password: str
 
 
+class UserLoginSchema(UserBaseSchema):
+    password: str
+
+
 class UserSchema(UserBaseSchema):
     id: int
     is_active: bool
