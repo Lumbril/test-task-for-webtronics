@@ -4,8 +4,9 @@ from typing import Union
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
+from sqlalchemy.orm import Session
 
-from database.crud import get_user
+from database.crud import get_user_by_email
 from database.database import get_db
 from database.models import UserModel
 from database.schemas import TokenData
@@ -29,7 +30,7 @@ def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None
     return encoded_jwt
 
 
-def get_user_by_token(token: str = Depends(oauth2_scheme)):
+def get_user_by_token(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -38,16 +39,16 @@ def get_user_by_token(token: str = Depends(oauth2_scheme)):
 
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
+        email: str = payload.get("sub")
 
-        if username is None:
+        if email is None:
             raise credentials_exception
 
-        token_data = TokenData(username=username)
+        token_data = TokenData(email=email)
     except JWTError:
         raise credentials_exception
 
-    user = get_user(get_db(), username=token_data.username)
+    user = get_user_by_email(db, email=token_data.email)
 
     if user is None:
         raise credentials_exception

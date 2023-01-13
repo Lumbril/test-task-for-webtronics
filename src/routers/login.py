@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -5,6 +7,8 @@ from database import schemas, crud
 from database.database import get_db
 from database.schemas import Token
 from services import authenticate_user
+from services.token import create_access_token
+from settings import ACCESS_TOKEN_EXPIRE_MINUTES
 
 login_api = APIRouter()
 
@@ -20,4 +24,9 @@ def login(data: schemas.UserLoginSchema, db: Session = Depends(get_db)):
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    return {'access_token': '1231w', 'token_type': 'bearer'}
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user.email}, expires_delta=access_token_expires
+    )
+
+    return {'access_token': access_token, 'token_type': 'bearer'}
