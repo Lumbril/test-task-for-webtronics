@@ -9,11 +9,11 @@ from sqlalchemy.orm import Session
 from database.crud import get_user_by_email
 from database.database import get_db
 from database.models import UserModel
-from database.schemas import TokenData
+from database.schemas import TokenDataSchema
 from settings import SECRET_KEY, ALGORITHM
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 
 def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None):
@@ -44,7 +44,7 @@ def get_user_by_token(token: str = Depends(oauth2_scheme), db: Session = Depends
         if email is None:
             raise credentials_exception
 
-        token_data = TokenData(email=email)
+        token_data = TokenDataSchema(email=email)
     except JWTError:
         raise credentials_exception
 

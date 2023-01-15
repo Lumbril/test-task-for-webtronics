@@ -3,10 +3,10 @@ from typing import Union
 from pydantic import BaseModel
 
 
-class Token(BaseModel):
+class TokenSchema(BaseModel):
     access_token: str
     token_type: str
 
 
-class TokenData(BaseModel):
+class TokenDataSchema(BaseModel):
     email: Union[str, None] = None
