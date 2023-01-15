@@ -1,9 +1,9 @@
-LEVEL=
+LEVEL=PROD
 
 DB_NAME=webtronics
 DB_USER=admin
 DB_PASSWORD=admin
-HOST=db
+DB_HOST=db
 
 POSTGRES_DB=webtronics
 POSTGRES_USER=admin
