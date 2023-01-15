@@ -18,3 +18,13 @@ services:
       - 5432:5432
     env_file:
       - ./src/.env
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: 0
+    ports:
+      - "5050:80"
