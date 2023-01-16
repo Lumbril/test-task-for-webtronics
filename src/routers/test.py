@@ -4,7 +4,7 @@ from database.models import UserModel
 from database.schemas import UserSchema
 from services.token import get_active_user_by_token
 
-test_api = APIRouter()
+test_api = APIRouter(tags=['Test'])
 
 
 @test_api.get('/test')

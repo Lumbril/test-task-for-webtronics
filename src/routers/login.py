@@ -11,7 +11,7 @@ from services.token import create_access_token
 from settings import ACCESS_TOKEN_EXPIRE_MINUTES
 
 
-login_api = APIRouter()
+login_api = APIRouter(tags=['Login'])
 
 
 @login_api.post('/login', response_model=TokenSchema)

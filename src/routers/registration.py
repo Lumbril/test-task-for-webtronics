@@ -7,7 +7,7 @@ from database.schemas import UserSchema
 from services import get_password_hash
 
 
-registration_api = APIRouter()
+registration_api = APIRouter(tags=['Registration'])
 
 
 @registration_api.post('/registration', response_model=UserSchema)

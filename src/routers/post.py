@@ -9,7 +9,8 @@ from database.models import UserModel
 from database.schemas import PostSchema, PostCreateSchema
 from services.token import get_active_user_by_token
 
-post_api = APIRouter(prefix='/post')
+
+post_api = APIRouter(prefix='/post', tags=['Posts'])
 
 
 @post_api.get('', response_model=List[PostSchema])
