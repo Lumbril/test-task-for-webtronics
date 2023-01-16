@@ -17,14 +17,14 @@ def get_all_posts(db: Session = Depends(get_db)):
     return crud.get_posts(db)
 
 
+@post_api.get('/my', response_model=List[PostSchema])
+def get_my_post_list(user: UserModel = Depends(get_active_user_by_token), db: Session = Depends(get_db)):
+    return crud.get_posts_by_author(db, user.id)
+
+
 @post_api.get('/{post_id}', response_model=PostSchema)
 def get_post(post_id: int, db: Session = Depends(get_db)):
     return crud.get_post(db, post_id)
-
-
-@post_api.get('/my/', response_model=List[PostSchema])
-def get_my_post_list(user: UserModel = Depends(get_active_user_by_token), db: Session = Depends(get_db)):
-    return crud.get_posts_by_author(db, user.id)
 
 
 @post_api.get('/my/{post_id}', response_model=PostSchema)
