@@ -34,12 +34,19 @@ def create_mark(db: Session, like: LikeCreateSchema, user: UserModel):
     return db_mark
 
 
-def update_mark(db: Session, like: LikeBaseSchema, post_id: int, user: UserModel):
-    update_data = like.dict(exclude_unset=True)
+def update_mark(db: Session, like: models.LikeModel, like_update: LikeBaseSchema, post_id: int, user: UserModel):
+    update_data = like_update.dict(exclude_unset=True)
+
+    for key, value in update_data.items():
+        setattr(like, key, value)
+
+    db.commit()
+
+    return like
 
 
-def delete_mark(db: Session, post_id: int, user: UserModel):
-    db_mark = get_mark_by_user(db, post_id, user.id)
+def delete_mark(db: Session, post_id: int, user: int):
+    db_mark = get_mark_by_user(db, post_id, user)
 
     db.delete(db_mark)
     db.commit()
