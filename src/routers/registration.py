@@ -15,7 +15,7 @@ def create_user(user: schemas.UserCreateSchema, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
 
     if db_user:
-        raise HTTPException(status_code=400, detail="Email already registered")
+        raise HTTPException(status_code=400, detail='Email already registered')
 
     user.password = get_password_hash(user.password)
 
